@@ -10,7 +10,7 @@ services:
     build:
       context: .
     container_name: multi_tenancy_django
-    command: python3 /app/manage.py runserver
+    command: python3 /app/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
