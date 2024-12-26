@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from multi_tenancy_django_app.customers.viewsets import (
@@ -17,4 +17,5 @@ router.register("customers", CustomerViewSet, basename="customers")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-] + router.urls
+    path("api/", include((router.urls, "api"))),
+]

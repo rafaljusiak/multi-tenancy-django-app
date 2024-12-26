@@ -11,6 +11,8 @@ class TenantViewSet(
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
+    lookup_field = "tenant_id"
+    lookup_url_kwarg = "tenant_id"
     permission_classes = (IsAuthenticated,)
     queryset = Tenant.objects.all()
     serializer_class = TenantSerializer
