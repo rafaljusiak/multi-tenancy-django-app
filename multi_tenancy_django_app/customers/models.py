@@ -1,28 +1,18 @@
 from django.db import models
 
-from multi_tenancy_django_app.customers.managers import (
-    OrganizationManager,
-    DepartmentManager,
-    CustomerManager,
-)
+from multi_tenancy_django_app.tenants.models import TenantRelatedModel
 
 
-class Organization(models.Model):
+class Organization(TenantRelatedModel):
     tenant = models.ForeignKey("tenants.Tenant", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
 
-    objects = OrganizationManager
 
-
-class Department(models.Model):
+class Department(TenantRelatedModel):
     organization = models.ForeignKey("customers.Organization", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
 
-    objects = DepartmentManager
 
-
-class Customer(models.Model):
+class Customer(TenantRelatedModel):
     department = models.ForeignKey("customers.Department", on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-
-    objects = CustomerManager

@@ -34,5 +34,7 @@ def test_tenant_cannot_be_deleted(rest_client, tenant_a: Tenant):
 
 def test_tenant_cannot_be_updated(rest_client, tenant_a: Tenant):
     data = {"tenant_id": str(uuid.uuid4()), "domain": "c.com"}
-    response = rest_client.put(reverse("api:tenants-detail", args=(tenant_a.tenant_id,)), data=data)
+    response = rest_client.put(
+        reverse("api:tenants-detail", args=(tenant_a.tenant_id,)), data=data
+    )
     assert response.status_code == 405

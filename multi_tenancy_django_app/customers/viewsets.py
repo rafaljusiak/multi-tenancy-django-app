@@ -7,16 +7,18 @@ from multi_tenancy_django_app.customers.serializers import (
     DepartmentSerializer,
     OrganizationSerializer,
 )
+from multi_tenancy_django_app.tenants.managers import TenantBasedQuerySet
 
 
 class BaseTenantBasedViewSet(viewsets.GenericViewSet):
+    queryset: TenantBasedQuerySet
+
     def get_queryset(self):
         return super().get_queryset().for_tenant(self.request.tenant)
 
 
 class OrganizationViewSet(
     mixins.CreateModelMixin,
-    mixins.DestroyModelMixin,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     BaseTenantBasedViewSet,
@@ -28,7 +30,6 @@ class OrganizationViewSet(
 
 class DepartmentViewSet(
     mixins.CreateModelMixin,
-    mixins.DestroyModelMixin,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     BaseTenantBasedViewSet,
@@ -40,7 +41,6 @@ class DepartmentViewSet(
 
 class CustomerViewSet(
     mixins.CreateModelMixin,
-    mixins.DestroyModelMixin,
     mixins.ListModelMixin,
     mixins.RetrieveModelMixin,
     BaseTenantBasedViewSet,
