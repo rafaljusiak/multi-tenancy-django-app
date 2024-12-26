@@ -2,13 +2,13 @@ import uuid
 
 from django.db import models
 
-from multi_tenancy_django_app.tenants.managers import TenantBasedQuerySet
+from multi_tenancy_django_app.tenants.managers import TenantRelatedQuerySet
 
 
 class TenantRelatedModel(models.Model):
     tenant = models.ForeignKey("tenants.Tenant", on_delete=models.CASCADE)
 
-    objects = TenantBasedQuerySet.as_manager()
+    objects = TenantRelatedQuerySet.as_manager()
 
     class Meta:
         abstract = True

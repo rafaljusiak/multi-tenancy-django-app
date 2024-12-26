@@ -8,6 +8,6 @@ if TYPE_CHECKING:
     from multi_tenancy_django_app.tenants.models import Tenant
 
 
-class TenantBasedQuerySet(models.QuerySet):
+class TenantRelatedQuerySet(models.QuerySet):
     def for_tenant(self, tenant: Tenant):
         return self.filter(tenant=tenant)
