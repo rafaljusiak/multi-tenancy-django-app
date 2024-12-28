@@ -71,6 +71,6 @@ Include it in the `Authorization` header as `Token <your-token>`. Example:
 ```
 curl -X POST http://0.0.0.0:8000/api/organizations/ \
    -H "Content-Type: application/json" \
-   -H "Authorization: Token <your-token>"
+   -H "Authorization: Token <your-token>" \
    -d '{"name": "New Organization"}'
 ```
