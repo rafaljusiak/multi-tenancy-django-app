@@ -1,5 +1,4 @@
 from rest_framework import mixins
-from rest_framework.permissions import IsAuthenticated
 
 from multi_tenancy_django_app.customers.models import Customer, Department, Organization
 from multi_tenancy_django_app.customers.serializers import (
@@ -16,7 +15,6 @@ class OrganizationViewSet(
     mixins.RetrieveModelMixin,
     BaseTenantRelatedViewSet,
 ):
-    permission_classes = (IsAuthenticated,)
     queryset = Organization.objects.all()
     serializer_class = OrganizationSerializer
 
@@ -27,7 +25,6 @@ class DepartmentViewSet(
     mixins.RetrieveModelMixin,
     BaseTenantRelatedViewSet,
 ):
-    permission_classes = (IsAuthenticated,)
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
 
@@ -38,6 +35,5 @@ class CustomerViewSet(
     mixins.RetrieveModelMixin,
     BaseTenantRelatedViewSet,
 ):
-    permission_classes = (IsAuthenticated,)
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
