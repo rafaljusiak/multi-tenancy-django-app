@@ -16,8 +16,11 @@ docker compose up -d django
 docker compose exec django python manage.py migrate
 docker compose exec django python manage.py shell -c "
 from django.contrib.auth.models import User;
-from multi_tenancy_django_app.tenants.models import Tenant;
 User.objects.filter(username='admin').first() or User.objects.create_superuser('admin', 'admin@example.com', 'P@ssw0rd');
+Site.objects.update(domain='localhost');
+organization=Organization.objects.create(name='base org');
+tenant=Tenant.objects.create(name='local', organization=organization);
+Domain.objects.create(tenant=tenant, domain='localhost')
 "
 docker compose stop
 echo

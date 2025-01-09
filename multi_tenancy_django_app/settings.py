@@ -1,7 +1,9 @@
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
+ROOT_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -21,31 +23,29 @@ ALLOWED_HOSTS = ["*"]
 SHARED_APPS = (
     "django_tenants",
     "multi_tenancy_django_app.tenants",
-
     "django_extensions",
     "django.contrib.contenttypes",
-    'django.contrib.auth',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.admin',
+    "django.contrib.auth",
+    "django.contrib.sessions",
+    "django.contrib.sites",
+    "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework.authtoken",
-
-    'multi_tenancy_django_app.customers',
+    "multi_tenancy_django_app.admin.apps.AdminConfig",
+    "multi_tenancy_django_app.customers",
 )
 
-TENANT_APPS = (
-    "multi_tenancy_django_app.resources",
-)
+TENANT_APPS = ("multi_tenancy_django_app.resources",)
 
-INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
+INSTALLED_APPS = list(SHARED_APPS) + [
+    app for app in TENANT_APPS if app not in SHARED_APPS
+]
 
 TENANT_MODEL = "tenants.Tenant"
 TENANT_DOMAIN_MODEL = "tenants.Domain"
 
 MIDDLEWARE = [
-    'django_tenants.middleware.main.TenantMainMiddleware',
+    "django_tenants.middleware.main.TenantMainMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -60,7 +60,7 @@ ROOT_URLCONF = "multi_tenancy_django_app.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

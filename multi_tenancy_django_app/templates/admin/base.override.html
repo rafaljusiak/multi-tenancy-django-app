@@ -1,0 +1,12 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+{% if tenant_button %}
+    <div class="tenant-button">
+        {{ tenant_button|safe }}
+    </div>
+<br/>
+{% endif %}
+
+{{ block.super }}
+{% endblock %}

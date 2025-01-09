@@ -5,4 +5,4 @@ from multi_tenancy_django_app.tenants.models import Tenant
 
 @admin.register(Tenant)
 class TenantAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ("id", "name")
