@@ -18,19 +18,34 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
-INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
+SHARED_APPS = (
+    "django_tenants",
+    "multi_tenancy_django_app.tenants",
+
+    "django_extensions",
     "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
+    'django.contrib.auth',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.admin',
     "django.contrib.staticfiles",
     "rest_framework.authtoken",
-    "multi_tenancy_django_app.customers",
-    "multi_tenancy_django_app.tenants",
-]
+
+    'multi_tenancy_django_app.customers',
+)
+
+TENANT_APPS = (
+    "multi_tenancy_django_app.resources",
+)
+
+INSTALLED_APPS = list(SHARED_APPS) + [app for app in TENANT_APPS if app not in SHARED_APPS]
+
+TENANT_MODEL = "tenants.Tenant"
+TENANT_DOMAIN_MODEL = "tenants.Domain"
 
 MIDDLEWARE = [
+    'django_tenants.middleware.main.TenantMainMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -38,7 +53,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "multi_tenancy_django_app.tenants.middleware.TenantMiddleware",
 ]
 
 ROOT_URLCONF = "multi_tenancy_django_app.urls"
@@ -67,13 +81,15 @@ WSGI_APPLICATION = "multi_tenancy_django_app.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django_tenants.postgresql_backend",
         "NAME": "postgres",
         "USER": "postgres",
         "HOST": "db",
         "PORT": 5432,
     }
 }
+
+DATABASE_ROUTERS = ["django_tenants.routers.TenantSyncRouter"]
 
 
 # Password validation

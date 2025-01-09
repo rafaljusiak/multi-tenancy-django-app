@@ -1,19 +1,12 @@
-import uuid
-
 from django.db import models
-
-from multi_tenancy_django_app.tenants.managers import TenantRelatedQuerySet
-
-
-class TenantRelatedModel(models.Model):
-    tenant = models.ForeignKey("tenants.Tenant", on_delete=models.CASCADE)
-
-    objects = TenantRelatedQuerySet.as_manager()
-
-    class Meta:
-        abstract = True
+from django_tenants.models import TenantMixin, DomainMixin
 
 
-class Tenant(models.Model):
-    tenant_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    domain = models.CharField(max_length=255, unique=True)
+class Tenant(TenantMixin):
+    organization = models.ForeignKey("customers.Organization", on_delete=models.CASCADE)
+
+    name = models.CharField(max_length=255)
+
+
+class Domain(DomainMixin):
+    pass
