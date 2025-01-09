@@ -31,9 +31,19 @@ class TenantModelAdmin(admin.ModelAdmin):
             return super().get_object(request, object_id, from_field)
 
     @csrf_protect_m
+    def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
+        with tenant_context(self._get_tenant_from_session(request)):
+            return super().changeform_view(request, object_id, form_url, extra_context)
+
+    @csrf_protect_m
     def changelist_view(self, request, extra_context=None):
         with tenant_context(self._get_tenant_from_session(request)):
             return super().changelist_view(request, extra_context)
+
+    @csrf_protect_m
+    def delete_view(self, request, object_id, extra_context=None):
+        with tenant_context(self._get_tenant_from_session(request)):
+            return super().delete_view(request, extra_context)
 
     def _get_tenant_from_session(self, request) -> Tenant:
         if request.user.is_superuser and "tenant_id" in request.session:
